@@ -1,13 +1,6 @@
 from flask import Flask, escape, request, render_template, Response
-from flask_login import LoginManager
-from models.user import User
 
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-# Our mock database
-users = {'mvhenderson.4@gmail.com': {'password': 'secret'}}
 
 @app.route('/')
 def hello():
@@ -27,8 +20,4 @@ def login():
         return flask.redirect(flask.url_for('protected'))
     
     return 'Bad login'
-    
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)

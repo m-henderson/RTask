@@ -21,7 +21,7 @@ oauth = OAuth(app)
 # move to config file
 auth0 = oauth.register(
     'auth0',
-    client_id='Zt9tC9dhE4oGIqS5JDyUbbVg6ykZ0zVY',
+    client_id=config.clientId,
     client_secret= config.secret,
     api_base_url='https://rtask.auth0.com',
     access_token_url='https://rtask.auth0.com/oauth/token',
@@ -81,4 +81,8 @@ def logout():
     # Redirect user to logout endpoint
     params = {'returnTo': url_for('home', _external=True), 'client_id': 'Zt9tC9dhE4oGIqS5JDyUbbVg6ykZ0zVY'}
     return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+
+@app.route('/dashboard/tickets/new')
+def newticket():
+    return render_template('/dashboard/tickets/new.html')
 

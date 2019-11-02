@@ -1,1 +1,2 @@
-secret = 'd58BOG7mQW75J4RTOcRSezHDS9Rl4qbRK6Iy9FDeRC4Q7VG3nahsVbyACL_s5j1f'
+secret = ''
+clientId = ''

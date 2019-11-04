@@ -11,8 +11,13 @@ from flask import redirect
 from flask import render_template
 from flask import session
 from flask import url_for
+from flask import request
 from authlib.flask.client import OAuth
 from six.moves.urllib.parse import urlencode
+from models.ticket import Ticket
+from forms.ticket_form import TicketForm
+from flask import g
+from models.ticket import db_session
 
 app = Flask(__name__)
 app.secret_key = 'SlumDog'
@@ -77,12 +82,41 @@ def dashboard():
 @app.route('/logout')
 def logout():
     # Clear session stored data
-    session.clear()
+    db_session.clear()
     # Redirect user to logout endpoint
     params = {'returnTo': url_for('home', _external=True), 'client_id': 'Zt9tC9dhE4oGIqS5JDyUbbVg6ykZ0zVY'}
     return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
 
-@app.route('/dashboard/tickets/new')
-def newticket():
-    return render_template('/dashboard/tickets/new.html')
+@app.route('/dashboard/tickets/new', methods=['GET', 'POST'])
+def ticket():
 
+    ticket = Ticket()
+    success = False
+    form = TicketForm(request.form, obj=ticket)
+
+    if request.method == 'GET':
+        form = TicketForm(obj=ticket)
+        return render_template('/dashboard/tickets/new.html', form=form, success=success)
+    
+    if form.validate():
+        form.populate_obj(ticket)
+        g.db.add(ticket)
+        g.db.commit()
+        success = True
+
+@app.before_request
+def before_req():
+    g.db = db_session()
+
+@app.after_request
+def after_req(resp):
+    try:
+        g.db.close()
+    except Exception:
+        pass
+    return resp
+    
+if __name__ == '__main__':
+    db.create_all()
+
+    app.run(debug=True)

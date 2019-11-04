@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% import 'macros/macros.html' as macros %}
 {% block content %}
-<h1>test</h1>
+    {{ macros.quick_form(form) }}
 {% endblock %}

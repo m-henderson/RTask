@@ -1,5 +1,15 @@
 {% extends "dashboard/base.html" %}
 {% import 'macros/macros.html' as macros %}
 {% block content %}
-    {{ macros.quick_form(form) }}
+    <form method="POST">
+        <div class='form-group'>
+            <label for='title'>Title</label>
+            <input type='text' id='title' name='title' class='form-control'/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name='description' id="description" rows="3"></textarea>
+        </div>
+        <button type="submit">Create Ticket</button>
+    </form>
 {% endblock %}

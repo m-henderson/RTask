@@ -13,6 +13,8 @@
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
 
+    <link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+
     <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
 </head>
@@ -141,8 +143,16 @@
       
 
     <div id="content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
         {% block content %}
-       
         {% endblock %}
     </div>
 

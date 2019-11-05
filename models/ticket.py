@@ -3,8 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from wtforms_alchemy import ModelForm
+from wtforms import SubmitField
 
-engine = create_engine('sqlite:///:memory:')
+engine = create_engine('postgresql://postgres:RobedCoder@localhost:5432/rtask')
 Base = declarative_base(engine)
 db_session = sessionmaker(bind=engine)
 

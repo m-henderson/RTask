@@ -5,4 +5,4 @@ from wtforms import SubmitField
 class TicketForm(ModelForm):
     class Meta():
         model = Ticket
-        button_map = SubmitField()
+        submit_button = SubmitField('Submit')

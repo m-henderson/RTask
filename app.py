@@ -98,11 +98,20 @@ def ticket():
         form = TicketForm(obj=ticket)
         return render_template('/dashboard/tickets/new.html', form=form, success=success)
     
-    if form.validate():
-        form.populate_obj(ticket)
-        g.db.add(ticket)
-        g.db.commit()
-        success = True
+    ticket.title = request.form['title']
+    ticket.description = request.form['description']
+
+    g.db.add(ticket)
+    g.db.commit()
+    success = True
+
+    flash('ticket created successfully!')
+    return redirect(url_for('ticket_list'))
+
+@app.route('/dashboard/tickets', methods=['GET'])
+def ticket_list():
+
+    return render_template('/dashboard/tickets/index.html')
 
 @app.before_request
 def before_req():
@@ -115,6 +124,7 @@ def after_req(resp):
     except Exception:
         pass
     return resp
+
     
 if __name__ == '__main__':
     db.create_all()

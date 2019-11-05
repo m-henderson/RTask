@@ -15,3 +15,8 @@ header {
 .footer {
     display: block;
 }
+
+form {
+    margin: 0 auto;
+    padding: 10px;
+}

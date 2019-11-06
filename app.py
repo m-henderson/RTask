@@ -121,6 +121,12 @@ def get_ticket(ticket_id):
     ticket = g.db.query(Ticket).get(ticket_id)
     return render_template('/dashboard/tickets/view.html', ticket=ticket)
 
+
+@app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['GET', 'POST'])  
+def edit_ticket(ticket_id):
+    ticket = g.db.query(Ticket).get(ticket_id)
+    return render_template('/dashboard/tickets/edit.html', ticket=ticket)
+
 @app.before_request
 def before_req():
     g.db = db_session()

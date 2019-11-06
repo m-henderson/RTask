@@ -1,0 +1,14 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+    <h1>Edit Ticket</h1>
+    <div class="form-group">
+        <label>Title</label>
+        <input value="{{ticket.title}}" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control">
+            {{ticket.description}}
+        </textarea>
+    </div>
+{% endblock %}

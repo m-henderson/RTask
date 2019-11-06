@@ -1,6 +1,7 @@
 {% extends "dashboard/base.html" %}
 {% import 'macros/macros.html' as macros %}
 {% block content %}
+    <h1>New Ticket</h1>
     <form method="POST">
         <div class='form-group'>
             <label for='title'>Title</label>
@@ -10,6 +11,6 @@
             <label for="description">Description</label>
             <textarea class="form-control" name='description' id="description" rows="3"></textarea>
         </div>
-        <button type="submit">Create Ticket</button>
+        <button type="submit" class="btn btn-primary">Create Ticket</button>
     </form>
 {% endblock %}

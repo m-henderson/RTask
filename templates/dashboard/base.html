@@ -13,7 +13,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
 
-    <link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 
     <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
@@ -131,6 +131,7 @@
                       <span>Tickets</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                      <a class="dropdown-item" href="/dashboard/tickets">List</a>
                       <a class="dropdown-item" href="/dashboard/tickets/new">New</a>
                       <a class="dropdown-item" href="/dashboard/tickets/search">Search</a>
                       <a class="dropdown-item" href="forgot-password.html">Open</a>
@@ -145,15 +146,17 @@
     <div id="content">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
-            <ul class=flashes>
+            <div class="alert alert-success"> <!-- Use flask flask filtering fro dif types of messages -->
             {% for message in messages %}
-              <li>{{ message }}</li>
+              {{ message }}
             {% endfor %}
-            </ul>
+            </div>
           {% endif %}
         {% endwith %}
-        {% block content %}
-        {% endblock %}
+        <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
     </div>
 
      <!-- Sticky Footer -->

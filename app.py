@@ -12,6 +12,7 @@ from flask import render_template
 from flask import session
 from flask import url_for
 from flask import request
+from flask import flash
 from authlib.flask.client import OAuth
 from six.moves.urllib.parse import urlencode
 from models.ticket import Ticket
@@ -110,8 +111,15 @@ def ticket():
 
 @app.route('/dashboard/tickets', methods=['GET'])
 def ticket_list():
+    # get list of tickets
+    tickets = getTickets()
 
-    return render_template('/dashboard/tickets/index.html')
+    return render_template('/dashboard/tickets/index.html', tickets=tickets)
+
+@app.route('/dashboard/tickets/<int:ticket_id>', methods=['GET'])  
+def get_ticket(ticket_id):
+    ticket = g.db.query(Ticket).get(ticket_id)
+    return render_template('/dashboard/tickets/view.html', ticket=ticket)
 
 @app.before_request
 def before_req():
@@ -124,6 +132,12 @@ def after_req(resp):
     except Exception:
         pass
     return resp
+
+def getTickets():
+    tickets = g.db.query(Ticket).all()
+    for ticket in tickets:
+        print(ticket.description)
+    return tickets
 
     
 if __name__ == '__main__':

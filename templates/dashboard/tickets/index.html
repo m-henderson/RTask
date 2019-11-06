@@ -1,4 +1,26 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
-<p>list goes here</p>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <th scope="row">{{ticket.id}}</th>
+                <td>
+                    <a href="{{ '/dashboard/tickets/%s'%ticket.id }}">{{ticket.title}}</a>
+                </td>
+                <td>{{ticket.description}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
 {% endblock %}
+
+
+<a href="{{ '/view_assessment_result/%s'%a.id }}">{{ a.id }}</a>

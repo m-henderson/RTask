@@ -121,8 +121,22 @@ def get_ticket(ticket_id):
     ticket = g.db.query(Ticket).get(ticket_id)
     return render_template('/dashboard/tickets/view.html', ticket=ticket)
 
+@app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['POST'])
+def update_ticket(ticket_id):
+    ticket = g.db.query(Ticket).get(ticket_id)
+    
+    if ticket:
+        ticket.title = request.form['title']
+        ticket.description = request.form['description']
+        g.db.commit()
+        success = True
+        flash('ticket updated successfully!')
+    else:
+        flash('error updating ticket')
 
-@app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['GET', 'POST'])  
+    return render_template('/dashboard/tickets/edit.html', ticket=ticket)
+
+@app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['GET'])  
 def edit_ticket(ticket_id):
     ticket = g.db.query(Ticket).get(ticket_id)
     return render_template('/dashboard/tickets/edit.html', ticket=ticket)
@@ -147,6 +161,4 @@ def getTickets():
 
     
 if __name__ == '__main__':
-    db.create_all()
-
     app.run(debug=True)

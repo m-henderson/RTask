@@ -18,7 +18,10 @@ from six.moves.urllib.parse import urlencode
 from models.ticket import Ticket
 from forms.ticket_form import TicketForm
 from flask import g
-from models.ticket import db_session
+import os.path
+from os import path
+from db import db_session, init_db
+from models.ticket import Ticket
 
 app = Flask(__name__)
 app.secret_key = 'SlumDog'
@@ -36,6 +39,13 @@ auth0 = oauth.register(
         'scope': 'openid profile email',
     },
 )
+
+# check if database/tables exist
+init_db()
+
+@app.route('/setup')
+def setup():
+    return render_template('/setup/index.html')
 
 @app.route('/')
 def hello():
@@ -124,7 +134,7 @@ def get_ticket(ticket_id):
 @app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['POST'])
 def update_ticket(ticket_id):
     ticket = g.db.query(Ticket).get(ticket_id)
-    
+
     if ticket:
         ticket.title = request.form['title']
         ticket.description = request.form['description']

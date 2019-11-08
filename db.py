@@ -4,15 +4,18 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 db_url = 'postgresql://postgres:RobedCoder@localhost:5432/rtask'
-engine = create_engine('postgresql://postgres:RobedCoder@localhost:5432/rtask')
-Base = declarative_base(engine)
+engine = create_engine(db_url)
+Base = declarative_base()
 db_session = sessionmaker(bind=engine)
-
 
 # import models after base is declared
 from models import ticket
 
 def init_db():
-    #Base.create_all(engine)
-    print('hey')
+    try:
+        print('checking database and table status')
+        Base.metadata.create_all(engine)
+        print('tables exist')
+    except Exception as ex:
+        print(ex)    
 

@@ -2,6 +2,21 @@
 <html lang="en">
 
 <head>
+    <!-- Phaqui: issue-6: Flash message timeouts -->
+    <!-- Note: I just added this here, because I don't know where else to add it,
+               feel free to move it to where you want it, and change it up or whatnot. -->
+    <!-- Also this just sets the css property 'display' to 'none'. No animations or anything
+         fancy. -->
+    <script type="text/javascript">
+        window.addEventListener("DOMContentLoaded", function(ev) {
+            let flash_message = document.querySelector('.alert');
+            if (!flash_message) return;
+
+            window.setTimeout(function() {
+                flash_message.style.display = 'none';
+            }, 3000);
+        });
+    </script>
     {% block head %}
     <!-- Custom fonts for this template-->
     <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet"

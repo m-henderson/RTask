@@ -1,14 +1,10 @@
 flask
-
 python-dotenv
-
 requests
-
 authlib
-
 six
-
 sqlalchemy
 sqlalchemy_utils
 psycopg2-binary
 WTForms-Alchemy
+alembic

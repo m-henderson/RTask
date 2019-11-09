@@ -1,5 +1,12 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
+    {% if not tickets %}
+    <tr>
+        <td>There are no tickets.
+            <a href="{{ '/dashboard/tickets/new' }}">Create new ticket</a>
+        </td>
+    </tr>
+    {% else %}
     <table class="table">
         <thead>
           <tr>
@@ -9,13 +16,6 @@
           </tr>
         </thead>
         <tbody>
-            {% if not tickets %}
-            <tr>
-                <td>There are no tickets.
-                    <a href="{{ '/dashboard/tickets/new' }}">Create new ticket</a>
-                </td>
-            </tr>
-            {% else %}
             {% for ticket in tickets %}
             <tr>
                 <th scope="row">{{ticket.id}}</th>
@@ -25,9 +25,9 @@
                 <td>{{ticket.description}}</td>
             </tr>
             {% endfor %}
-            {% endif %}
         </tbody>
       </table>
+    {% endif %}
 {% endblock %}
 
 

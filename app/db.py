@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-db_url = 'postgresql://RobedCoder:RobedCoder@localhost:5432/rtask'
+db_url = 'postgresql://RobedCoder:RobedCoder@localhost:5432/rtask' # move to config 
 engine = create_engine(db_url)
 Base = declarative_base()
 db_session = sessionmaker(bind=engine)

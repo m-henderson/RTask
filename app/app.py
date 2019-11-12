@@ -124,8 +124,11 @@ def ticket():
 @app.route('/dashboard/tickets', methods=['GET'])
 @requires_auth
 def ticket_list():
+    # bind to userid to get unique tickets
+    userId = session['profile']['user_id']
+
     # get list of tickets
-    tickets = getTickets()
+    tickets = getTickets(userId)
     return render_template('/dashboard/tickets/index.html', tickets=tickets)
 
 @app.route('/dashboard/tickets/<int:ticket_id>', methods=['GET'])  
@@ -170,8 +173,8 @@ def after_req(resp):
         pass
     return resp
 
-def getTickets():
-    tickets = g.db.query(Ticket).all()
+def getTickets(userId):
+    tickets = g.db.query(Ticket).filter(Ticket.userId == userId)
     for ticket in tickets:
         print(ticket.description)
     return tickets

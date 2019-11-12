@@ -1,17 +1,3 @@
-/rtask
-.vscode
-/__pycache__
-config.py
-
-# .pyc files can easily be ignored, they are just the compiled python bytecode
-*.pyc
-
-# for us vim users
-*.swp
-
-# python virtual env
-bin/
-lib/
-lib64
-share/
-pyvenv.cfg
+./env
+/env
+./app/config.py

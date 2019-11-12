@@ -99,6 +99,7 @@ def logout():
     return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
 
 @app.route('/dashboard/tickets/new', methods=['GET', 'POST'])
+@requires_auth
 def ticket():
 
     ticket = Ticket()
@@ -111,7 +112,8 @@ def ticket():
     
     ticket.title = request.form['title']
     ticket.description = request.form['description']
-
+    ticket.userId = session['profile']['user_id']
+    
     g.db.add(ticket)
     g.db.commit()
     success = True
@@ -120,10 +122,13 @@ def ticket():
     return redirect(url_for('ticket_list'))
 
 @app.route('/dashboard/tickets', methods=['GET'])
+@requires_auth
 def ticket_list():
-    # get list of tickets
-    tickets = getTickets()
+    # bind to userid to get unique tickets
+    userId = session['profile']['user_id']
 
+    # get list of tickets
+    tickets = getTickets(userId)
     return render_template('/dashboard/tickets/index.html', tickets=tickets)
 
 @app.route('/dashboard/tickets/<int:ticket_id>', methods=['GET'])  
@@ -132,12 +137,17 @@ def get_ticket(ticket_id):
     return render_template('/dashboard/tickets/view.html', ticket=ticket)
 
 @app.route('/dashboard/tickets/edit/<int:ticket_id>', methods=['POST'])
+@requires_auth
 def update_ticket(ticket_id):
     ticket = g.db.query(Ticket).get(ticket_id)
-
+    
+    # get username and assign on ticket
+    userId = session['profile']['user_id']
+    
     if ticket:
         ticket.title = request.form['title']
         ticket.description = request.form['description']
+        ticket.userId = userId
         g.db.commit()
         success = True
         flash('ticket updated successfully!')
@@ -163,8 +173,8 @@ def after_req(resp):
         pass
     return resp
 
-def getTickets():
-    tickets = g.db.query(Ticket).all()
+def getTickets(userId):
+    tickets = g.db.query(Ticket).filter(Ticket.userId == userId)
     for ticket in tickets:
         print(ticket.description)
     return tickets
